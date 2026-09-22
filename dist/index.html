@@ -60,11 +60,17 @@
     .time:last-child { border-right:0; }
     .number { display:block; color:var(--gold); font:400 clamp(2.6rem,7vw,6rem)/1 var(--display); }
     .unit { display:block; margin-top:.7rem; color:var(--muted); font-size:.68rem; font-weight:600; letter-spacing:.18em; text-transform:uppercase; }
-    .blessing { display:grid; grid-template-columns:.8fr 1.2fr; min-height:82svh; padding:0; background:#fffaf0; }
-    .blessing-image { min-height:72svh; background:url('poster.jpg') center bottom/cover no-repeat; }
-    .blessing-copy { display:flex; flex-direction:column; justify-content:center; padding:clamp(4rem,9vw,9rem); }
-    .quote { margin:0; font:400 clamp(2.35rem,5vw,5rem)/1.08 var(--serif); letter-spacing:-.035em; }
-    .parents { margin-top:2.2rem; color:var(--gold); font:600 1rem/1.8 var(--serif); letter-spacing:.05em; }
+    .blessing { padding:clamp(5.5rem,10vw,9rem) clamp(1.25rem,7vw,7rem); text-align:center; background:linear-gradient(145deg,#fffdf8,#f3e2c2); }
+    .family-frame { position:relative; max-width:1120px; margin:0 auto; padding:clamp(.45rem,1.2vw,.8rem); border:1px solid rgba(144,95,27,.3); border-radius:1.8rem; background:rgba(255,252,244,.76); box-shadow:0 35px 80px rgba(101,63,14,.17); }
+    .family-frame::before { content:""; position:absolute; inset:clamp(.8rem,1.7vw,1.25rem); z-index:1; pointer-events:none; border:1px solid rgba(255,255,255,.78); border-radius:1.15rem; }
+    .family-frame img { width:100%; height:auto; aspect-ratio:1280/913; object-fit:contain; border-radius:1.25rem; }
+    .blessing-copy { max-width:960px; margin:clamp(3.5rem,7vw,6rem) auto 0; }
+    .quote { margin:0 auto; max-width:900px; font:400 clamp(2.35rem,5vw,5rem)/1.08 var(--serif); letter-spacing:-.035em; }
+    .family-names { max-width:760px; margin:clamp(2.5rem,5vw,4rem) auto 0; display:grid; grid-template-columns:1.25fr .75fr; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+    .family-name { padding:1.7rem clamp(1rem,4vw,3rem); }
+    .family-name + .family-name { border-left:1px solid var(--line); }
+    .family-role { display:block; margin-bottom:.55rem; color:var(--gold); font-size:.67rem; font-weight:600; letter-spacing:.2em; text-transform:uppercase; }
+    .family-name strong { font:600 clamp(1.25rem,2.3vw,1.75rem)/1.35 var(--serif); }
     .location-section { overflow:hidden; text-align:center; background:linear-gradient(145deg,#efd4a1,#f9edcf); }
     .location-card { position:relative; max-width:1040px; margin:3.5rem auto 0; display:grid; grid-template-columns:1.15fr .85fr; min-height:420px; text-align:left; border:1px solid rgba(130,79,14,.2); border-radius:1.4rem; overflow:hidden; background:rgba(255,252,244,.74); box-shadow:0 28px 70px rgba(110,67,11,.15); backdrop-filter:blur(16px); }
     .map-visual { position:relative; min-height:360px; background-color:#d6b678; background-image:repeating-radial-gradient(ellipse at 18% 32%,transparent 0 34px,rgba(255,249,232,.42) 35px 37px,transparent 38px 66px),repeating-radial-gradient(ellipse at 82% 70%,transparent 0 42px,rgba(81,50,14,.16) 43px 45px,transparent 46px 79px),linear-gradient(145deg,#ead19c,#a97832); }
@@ -89,7 +95,7 @@
       .nav-links a:not(:last-child) { display:none; }
       .film { width:100%; height:100svh; }
       .hero::after { background:linear-gradient(180deg,rgba(46,27,6,.18),transparent 25%,transparent 70%,rgba(46,27,6,.32)); }
-      .welcome,.blessing,.location-card { grid-template-columns:1fr; }
+      .welcome,.location-card { grid-template-columns:1fr; }
       .welcome { padding-top:7rem; }
       .welcome-art { min-height:68svh; order:-1; }
       .monogram { right:.75rem; }
@@ -98,7 +104,8 @@
       .detail-grid { grid-template-columns:1fr; }
       .detail-card { min-height:0; border-right:0; border-bottom:1px solid rgba(239,213,161,.26); }
       .detail-card:last-child { border-bottom:0; }
-      .blessing-image { min-height:70svh; }
+      .family-names { grid-template-columns:1fr; }
+      .family-name + .family-name { border-left:0; border-top:1px solid var(--line); }
       .location-copy { order:-1; }
       .clock { grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); }
       .time { padding:1.5rem .5rem; border:0; background:rgba(255,250,240,.72); }
@@ -134,7 +141,17 @@
       <div class="reveal"><p class="eyebrow">Counting every moment</p><h2 class="headline" id="countdown-title">Until we celebrate</h2></div>
       <div class="clock reveal" aria-live="polite"><div class="time"><span class="number" id="days">00</span><span class="unit">Days</span></div><div class="time"><span class="number" id="hours">00</span><span class="unit">Hours</span></div><div class="time"><span class="number" id="minutes">00</span><span class="unit">Minutes</span></div><div class="time"><span class="number" id="seconds">00</span><span class="unit">Seconds</span></div></div>
     </section>
-    <section class="blessing" id="blessing"><div class="blessing-image" role="img" aria-label="Cradle ceremony scene with baby, teddy bear and rocking horse"></div><div class="blessing-copy reveal"><p class="eyebrow">From our family to yours</p><blockquote class="quote">“May this little life always be surrounded by faith, kindness and endless love.”</blockquote><p class="parents">Proud parents<br>T A Thaufeck &amp; Rasmila Thaufeek<br>and sister Aimic Thau</p></div></section>
+    <section class="blessing" id="blessing">
+      <figure class="family-frame reveal"><img src="family-photo.jpg" alt="Muhammed Aizen Thaufeek surrounded by his parents and sister" width="1280" height="913"></figure>
+      <div class="blessing-copy reveal">
+        <p class="eyebrow">Bound together by love</p>
+        <blockquote class="quote">“In the gentle circle of family, a child first learns the language of love.”</blockquote>
+        <div class="family-names">
+          <div class="family-name"><span class="family-role">Proud parents</span><strong>T A Thaufeck &amp; Rasmila Thaufeek</strong></div>
+          <div class="family-name"><span class="family-role">Loving sister</span><strong>Aimic Thaufeek</strong></div>
+        </div>
+      </div>
+    </section>
     <section class="section location-section" id="location">
       <div class="reveal"><p class="eyebrow">Come celebrate with us</p><h2 class="headline">Find your way<br><span class="script">to the joy.</span></h2></div>
       <div class="location-card reveal"><div class="map-visual" aria-hidden="true"><div class="pin"><svg viewBox="0 0 24 24"><circle cx="12" cy="10" r="4"/></svg></div></div><div class="location-copy"><p class="eyebrow">Venue</p><h3>Mariam Hall<br>Perumbavoor</h3><p>Tap below for turn-by-turn directions to the ceremony location.</p><a class="button" href="https://maps.google.com/?q=10.131840,76.462669" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5Z"/></svg>Open in Google Maps</a></div></div>
