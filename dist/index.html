@@ -31,6 +31,9 @@
     .round-action svg { width:20px; fill:currentColor; }
     .scroll-cue { position:absolute; z-index:4; left:clamp(1rem,3vw,3rem); bottom:clamp(1.5rem,4vw,3rem); display:flex; gap:.7rem; align-items:center; color:#fff; font-size:.69rem; letter-spacing:.16em; text-transform:uppercase; }
     .scroll-cue::before { content:""; width:42px; height:1px; background:currentColor; transform-origin:left; animation:cue 2s ease-in-out infinite; }
+    .music-prompt { position:absolute; z-index:5; left:50%; bottom:clamp(1.4rem,4vw,3rem); transform:translateX(-50%); display:inline-flex; align-items:center; gap:.65rem; min-height:46px; padding:.7rem 1.1rem; border:1px solid rgba(255,255,255,.65); border-radius:999px; color:#fff; background:rgba(48,29,8,.42); backdrop-filter:blur(12px); font:600 .72rem/1 var(--sans); letter-spacing:.1em; text-transform:uppercase; cursor:pointer; box-shadow:0 12px 32px rgba(49,28,5,.2); }
+    .music-prompt[hidden] { display:none; }
+    .music-prompt svg { width:17px; fill:currentColor; }
     .section { position:relative; padding:clamp(5.5rem,11vw,10rem) clamp(1.25rem,7vw,7rem); }
     .eyebrow { margin:0 0 1.2rem; color:var(--gold); font-size:.72rem; font-weight:600; letter-spacing:.22em; text-transform:uppercase; }
     .headline { margin:0; font:400 clamp(3.1rem,8vw,8rem)/.9 var(--serif); letter-spacing:-.045em; }
@@ -110,6 +113,13 @@
       .clock { grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); }
       .time { padding:1.5rem .5rem; border:0; background:rgba(255,250,240,.72); }
     }
+    @media (max-width:540px) {
+      .hero-actions { right:.75rem; bottom:max(.9rem,env(safe-area-inset-bottom)); }
+      .scroll-cue { left:.9rem; bottom:max(1.15rem,calc(env(safe-area-inset-bottom) + .2rem)); }
+      .scroll-cue::before { width:24px; }
+      .music-prompt { bottom:max(4.6rem,calc(env(safe-area-inset-bottom) + 4.1rem)); }
+      .round-action { width:44px; height:44px; }
+    }
     @media (prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } *,*::before,*::after { animation-duration:.01ms!important; animation-iteration-count:1!important; transition-duration:.01ms!important; } .reveal { opacity:1; transform:none; } }
   </style>
 </head>
@@ -118,6 +128,8 @@
   <nav class="nav" aria-label="Main navigation"><a class="mark" href="#top">Aizen</a><div class="nav-links"><a href="#details">Details</a><a href="#blessing">Family</a><a href="#location">Location</a></div></nav>
   <header class="hero" id="top">
     <div class="film"><video id="invitationVideo" autoplay muted playsinline poster="poster.jpg" aria-label="Animated cradle ceremony invitation"><source src="cradle-ceremony.mp4" type="video/mp4"></video></div>
+    <audio id="backgroundMusic" autoplay loop preload="auto"><source src="cradle-melody.m4a" type="audio/mp4"></audio>
+    <button class="music-prompt" id="musicPrompt" type="button"><svg viewBox="0 0 24 24"><path d="M12 3v10.55A4 4 0 1 0 14 17V7h4V3h-6Z"/></svg>Tap for music</button>
     <div class="scroll-cue" aria-hidden="true">Discover</div>
     <div class="hero-actions">
       <button class="round-action" id="sound" type="button" aria-label="Unmute invitation"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 4V5L7 9H3Zm11.5 3a4.5 4.5 0 0 0-1.5-3.35v6.7A4.5 4.5 0 0 0 14.5 12Zm-1.5-7.7v2.06a7 7 0 0 1 0 11.28v2.06A9 9 0 0 0 13 4.3Z"/></svg></button>
@@ -149,8 +161,7 @@
         <div class="family-names">
           <div class="family-name"><span class="family-role">Proud parents</span><strong>T A Thaufeck &amp; Rasmila Thaufeek</strong></div>
           <div class="family-name"><span class="family-role">Loving sister</span><strong>Aimic Thaufeek</strong></div>
-        </div>
-      </div>
+    </div>
     </section>
     <section class="section location-section" id="location">
       <div class="reveal"><p class="eyebrow">Come celebrate with us</p><h2 class="headline">Find your way<br><span class="script">to the joy.</span></h2></div>
@@ -160,8 +171,17 @@
   <footer><div class="footer-crescent" aria-hidden="true">☾</div><h2>With love, we await you.</h2><p>27 September 2026 · Mariam Hall, Perumbavoor</p><div class="copyright">Muhammed Aizen Thaufeek · Cradle Ceremony</div></footer>
   <script>
     const video=document.querySelector('#invitationVideo');
+    const music=document.querySelector('#backgroundMusic');
+    const musicPrompt=document.querySelector('#musicPrompt');
+    const soundButton=document.querySelector('#sound');
+    music.volume=.55;
+    function showMusicState(playing){musicPrompt.hidden=playing;soundButton.setAttribute('aria-label',playing?'Pause music':'Play music');soundButton.style.opacity=playing?'1':'.72';}
+    async function startMusic(){try{await music.play();showMusicState(true);}catch(error){showMusicState(false);}}
+    window.addEventListener('load',startMusic);
+    musicPrompt.addEventListener('click',startMusic);
+    document.addEventListener('pointerdown',()=>{if(music.paused)startMusic();},{once:true});
     document.querySelector('#replay').addEventListener('click',()=>{video.currentTime=0;video.play();});
-    document.querySelector('#sound').addEventListener('click',event=>{video.muted=!video.muted;event.currentTarget.setAttribute('aria-label',video.muted?'Unmute invitation':'Mute invitation');});
+    soundButton.addEventListener('click',event=>{event.stopPropagation();if(music.paused){startMusic();}else{music.pause();showMusicState(false);}});
     const revealObserver=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');revealObserver.unobserve(entry.target);}});},{threshold:.16});
     document.querySelectorAll('.reveal').forEach(el=>revealObserver.observe(el));
     const eventDate=new Date('2026-09-27T00:00:00+05:30');
