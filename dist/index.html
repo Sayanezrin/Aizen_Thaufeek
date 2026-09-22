@@ -76,10 +76,8 @@
     .family-name strong { font:600 clamp(1.25rem,2.3vw,1.75rem)/1.35 var(--serif); }
     .location-section { overflow:hidden; text-align:center; background:linear-gradient(145deg,#efd4a1,#f9edcf); }
     .location-card { position:relative; max-width:1040px; margin:3.5rem auto 0; display:grid; grid-template-columns:1.15fr .85fr; min-height:420px; text-align:left; border:1px solid rgba(130,79,14,.2); border-radius:1.4rem; overflow:hidden; background:rgba(255,252,244,.74); box-shadow:0 28px 70px rgba(110,67,11,.15); backdrop-filter:blur(16px); }
-    .map-visual { position:relative; min-height:360px; background-color:#d6b678; background-image:repeating-radial-gradient(ellipse at 18% 32%,transparent 0 34px,rgba(255,249,232,.42) 35px 37px,transparent 38px 66px),repeating-radial-gradient(ellipse at 82% 70%,transparent 0 42px,rgba(81,50,14,.16) 43px 45px,transparent 46px 79px),linear-gradient(145deg,#ead19c,#a97832); }
-    .map-visual::after { content:""; position:absolute; inset:0; background:linear-gradient(135deg,rgba(255,255,255,.22),transparent 45%,rgba(63,35,7,.14)); }
-    .pin { position:absolute; z-index:2; inset:0; margin:auto; width:72px; height:72px; display:grid; place-items:center; border-radius:50% 50% 50% 0; transform:rotate(-45deg); color:white; background:var(--gold); box-shadow:0 14px 30px rgba(74,42,5,.28); }
-    .pin svg { width:28px; transform:rotate(45deg); fill:currentColor; }
+    .map-visual { position:relative; min-height:420px; background:url('mariam-hall.jpg') center/cover no-repeat; }
+    .map-visual::after { content:""; position:absolute; inset:0; background:linear-gradient(180deg,rgba(255,248,226,.02),rgba(64,37,8,.14)); }
     .location-copy { display:flex; flex-direction:column; justify-content:center; align-items:start; padding:clamp(2.4rem,6vw,5rem); }
     .location-copy h3 { margin:0 0 1rem; font:500 clamp(2.2rem,4vw,3.5rem)/1.05 var(--serif); }
     .location-copy p { margin:0 0 2rem; color:var(--muted); line-height:1.7; }
@@ -166,7 +164,7 @@
     </section>
     <section class="section location-section" id="location">
       <div class="reveal"><p class="eyebrow">Come celebrate with us</p><h2 class="headline">Find your way<br><span class="script">to the joy.</span></h2></div>
-      <div class="location-card reveal"><div class="map-visual" aria-hidden="true"><div class="pin"><svg viewBox="0 0 24 24"><circle cx="12" cy="10" r="4"/></svg></div></div><div class="location-copy"><p class="eyebrow">Venue</p><h3>Mariam Hall<br>Perumbavoor</h3><p>Tap below for turn-by-turn directions to the ceremony location.</p><a class="button" href="https://maps.google.com/?q=10.131840,76.462669" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5Z"/></svg>Open in Google Maps</a></div></div>
+      <div class="location-card reveal"><div class="map-visual" role="img" aria-label="Interior of The Mariam Hall in Perumbavoor"></div><div class="location-copy"><p class="eyebrow">Venue</p><h3>Mariam Hall<br>Perumbavoor</h3><p>Tap below for turn-by-turn directions to the ceremony location.</p><a class="button" href="https://maps.google.com/?q=10.131840,76.462669" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5Z"/></svg>Open in Google Maps</a></div></div>
     </section>
   </main>
   <footer><div class="footer-crescent" aria-hidden="true">☾</div><h2>With love, we await you.</h2><p>27 September 2026 · Mariam Hall, Perumbavoor</p><div class="copyright">Muhammed Aizen Thaufeek · Cradle Ceremony</div></footer>
