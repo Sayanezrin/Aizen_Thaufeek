@@ -14,7 +14,30 @@
     * { box-sizing:border-box; }
     html { scroll-behavior:smooth; background:#f0dba9; }
     body { margin:0; color:var(--ink); background:var(--cream); font-family:var(--sans); overflow-x:hidden; }
+    body.intro-active { overflow:hidden; }
     a { color:inherit; } img,video { display:block; max-width:100%; } button,a { -webkit-tap-highlight-color:transparent; }
+    .envelope-intro { position:fixed; z-index:1000; inset:0; display:grid; place-items:center; overflow:hidden; pointer-events:none; background:radial-gradient(circle at 50% 42%,#fff9e9 0,#efd6a2 43%,#b87d35 100%); opacity:1; visibility:visible; transition:opacity .8s ease,visibility .8s ease; }
+    .envelope-intro::before { content:""; position:absolute; inset:-20%; background:repeating-radial-gradient(circle at 50% 50%,transparent 0 44px,rgba(255,255,255,.08) 45px 46px); opacity:.55; }
+    .envelope-intro.finished { opacity:0; visibility:hidden; }
+    .envelope-stage { position:relative; width:min(82vw,560px); aspect-ratio:1.35; filter:drop-shadow(0 34px 34px rgba(67,37,7,.28)); perspective:1100px; transform:translateY(5vh) scale(.88); opacity:0; }
+    .envelope-intro.opening .envelope-stage { animation:stage-arrive .8s cubic-bezier(.2,.8,.2,1) forwards; }
+    .envelope-back { position:absolute; inset:24% 0 0; border-radius:.8rem; background:linear-gradient(145deg,#f7dfad,#d69d4b); box-shadow:inset 0 0 0 1px rgba(112,67,17,.2); }
+    .envelope-flap { position:absolute; z-index:5; left:0; right:0; top:24%; height:53%; transform-origin:50% 0; transform-style:preserve-3d; clip-path:polygon(0 0,100% 0,50% 100%); background:linear-gradient(165deg,#f7dfa9,#c88b3b); backface-visibility:visible; }
+    .envelope-intro.opening .envelope-flap { animation:open-flap 1s .75s cubic-bezier(.35,.02,.2,1) forwards; }
+    .invitation-peek { position:absolute; z-index:3; left:8%; right:8%; top:28%; height:64%; overflow:hidden; border:clamp(5px,1vw,9px) solid #fffaf0; border-radius:.45rem; background:#5d3d20 url('poster.jpg') center/cover no-repeat; box-shadow:0 12px 26px rgba(71,39,8,.22); transform:translateY(23%) scale(.94); }
+    .invitation-peek::after { content:"A"; position:absolute; left:50%; top:50%; display:grid; place-items:center; width:74px; aspect-ratio:1; border:1px solid rgba(255,244,215,.7); border-radius:50%; color:#fff7df; background:rgba(65,38,10,.28); backdrop-filter:blur(5px); font:400 2.5rem/1 var(--display); transform:translate(-50%,-50%); }
+    .envelope-intro.opening .invitation-peek { animation:letter-rise 1.55s 1.35s cubic-bezier(.18,.76,.22,1) forwards; }
+    .envelope-front { position:absolute; z-index:4; inset:24% 0 0; overflow:hidden; border-radius:.8rem; }
+    .envelope-front::before,.envelope-front::after { content:""; position:absolute; inset:0; }
+    .envelope-front::before { background:linear-gradient(145deg,#e6b76c,#f7dfa9); clip-path:polygon(0 0,52% 60%,100% 0,100% 100%,0 100%); }
+    .envelope-front::after { background:linear-gradient(170deg,transparent 0 48%,rgba(255,245,218,.38) 49% 100%); clip-path:polygon(0 0,50% 58%,100% 0,100% 100%,0 100%); }
+    .wax-seal { position:absolute; z-index:6; left:50%; top:59%; display:grid; place-items:center; width:clamp(54px,9vw,76px); aspect-ratio:1; border:3px double rgba(255,216,143,.72); border-radius:50%; color:#f9dfab; background:radial-gradient(circle at 35% 28%,#b94d3c,#74251f 72%); box-shadow:0 5px 12px rgba(70,27,18,.32); font:500 clamp(1.35rem,3vw,2rem)/1 var(--serif); transform:translate(-50%,-50%); }
+    .envelope-intro.opening .wax-seal { animation:seal-away .45s .58s ease forwards; }
+    .intro-title { position:absolute; z-index:7; left:50%; bottom:-4.2rem; width:100%; margin:0; color:#5b3616; font:600 clamp(.68rem,1.5vw,.82rem)/1.3 var(--sans); letter-spacing:.24em; text-align:center; text-transform:uppercase; transform:translateX(-50%); }
+    @keyframes stage-arrive { from { opacity:0; transform:translateY(12vh) scale(.82); } to { opacity:1; transform:translateY(2vh) scale(1); } }
+    @keyframes seal-away { to { opacity:0; transform:translate(-50%,-50%) scale(.55); } }
+    @keyframes open-flap { 0% { transform:rotateX(0); z-index:5; } 49% { z-index:5; } 50%,100% { transform:rotateX(180deg); z-index:2; } }
+    @keyframes letter-rise { 0% { transform:translateY(23%) scale(.94); } 52% { transform:translateY(-48%) scale(1); } 100% { transform:translateY(-43%) scale(1.75); opacity:1; } }
     .skip { position:fixed; left:1rem; top:-4rem; z-index:100; padding:.75rem 1rem; background:#fff; border-radius:99px; }
     .skip:focus { top:1rem; }
     .nav { position:fixed; z-index:30; top:0; left:0; right:0; display:flex; justify-content:space-between; align-items:center; padding:1.05rem clamp(1rem,4vw,4rem); color:#fff7e7; mix-blend-mode:difference; }
@@ -119,14 +142,24 @@
       .music-prompt { bottom:max(4.6rem,calc(env(safe-area-inset-bottom) + 4.1rem)); }
       .round-action { width:44px; height:44px; }
     }
-    @media (prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } *,*::before,*::after { animation-duration:.01ms!important; animation-iteration-count:1!important; transition-duration:.01ms!important; } .reveal { opacity:1; transform:none; } }
+    @media (prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } *,*::before,*::after { animation-duration:.01ms!important; animation-iteration-count:1!important; transition-duration:.01ms!important; } .reveal { opacity:1; transform:none; } .envelope-intro { display:none; } }
   </style>
 </head>
 <body>
+  <div class="envelope-intro opening" id="envelopeIntro" aria-hidden="true">
+    <div class="envelope-stage">
+      <div class="envelope-back"></div>
+      <div class="invitation-peek"></div>
+      <div class="envelope-flap"></div>
+      <div class="envelope-front"></div>
+      <div class="wax-seal">A</div>
+      <p class="intro-title">A little blessing · A lifetime of love</p>
+    </div>
+  </div>
   <a class="skip" href="#blessing">Skip to family section</a>
   <nav class="nav" aria-label="Main navigation"><a class="mark" href="#top">Aizen</a><div class="nav-links"><a href="#details">Details</a><a href="#blessing">Family</a><a href="#location">Location</a></div></nav>
   <header class="hero" id="top">
-    <div class="film"><video id="invitationVideo" autoplay muted playsinline poster="poster.jpg" aria-label="Animated cradle ceremony invitation"><source src="cradle-ceremony.mp4" type="video/mp4"></video></div>
+    <div class="film"><video id="invitationVideo" muted playsinline preload="auto" poster="poster.jpg" aria-label="Animated cradle ceremony invitation"><source src="cradle-ceremony.mp4" type="video/mp4"></video></div>
     <audio id="backgroundMusic" autoplay loop preload="auto"><source src="cradle-melody.m4a" type="audio/mp4"></audio>
     <button class="music-prompt" id="musicPrompt" type="button"><svg viewBox="0 0 24 24"><path d="M12 3v10.55A4 4 0 1 0 14 17V7h4V3h-6Z"/></svg>Tap for music</button>
     <div class="scroll-cue" aria-hidden="true">Discover</div>
@@ -174,10 +207,18 @@
     const music=document.querySelector('#backgroundMusic');
     const musicPrompt=document.querySelector('#musicPrompt');
     const soundButton=document.querySelector('#sound');
+    const envelopeIntro=document.querySelector('#envelopeIntro');
     music.volume=.55;
     function showMusicState(playing){musicPrompt.hidden=playing;soundButton.setAttribute('aria-label',playing?'Pause music':'Play music');soundButton.style.opacity=playing?'1':'.72';}
     async function startMusic(){try{await music.play();showMusicState(true);}catch(error){showMusicState(false);}}
-    window.addEventListener('load',startMusic);
+    function openInvitation(){
+      if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){envelopeIntro.remove();video.play().catch(()=>{});return;}
+      document.body.classList.add('intro-active');
+      setTimeout(()=>video.play().catch(()=>{}),1900);
+      setTimeout(()=>{envelopeIntro.classList.add('finished');document.body.classList.remove('intro-active');},3000);
+      setTimeout(()=>envelopeIntro.remove(),3900);
+    }
+    window.addEventListener('load',openInvitation);
     musicPrompt.addEventListener('click',startMusic);
     document.addEventListener('pointerdown',()=>{if(music.paused)startMusic();},{once:true});
     document.querySelector('#replay').addEventListener('click',()=>{video.currentTime=0;video.play();});
