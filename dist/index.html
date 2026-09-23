@@ -25,7 +25,6 @@
     .envelope-flap { position:absolute; z-index:5; left:0; right:0; top:24%; height:53%; transform-origin:50% 0; transform-style:preserve-3d; clip-path:polygon(0 0,100% 0,50% 100%); background:linear-gradient(165deg,#f7dfa9,#c88b3b); backface-visibility:visible; }
     .envelope-intro.opening .envelope-flap { animation:open-flap 1s .75s cubic-bezier(.35,.02,.2,1) forwards,envelope-away .48s 1.62s ease forwards; }
     .invitation-peek { position:absolute; z-index:3; left:8%; right:8%; top:28%; height:64%; overflow:hidden; border:clamp(5px,1vw,9px) solid #fffaf0; border-radius:.45rem; background:#5d3d20 url('poster.jpg') center/cover no-repeat; box-shadow:0 12px 26px rgba(71,39,8,.22); transform:translateY(23%) scale(.94); }
-    .invitation-peek::after { content:"A"; position:absolute; left:50%; top:50%; display:grid; place-items:center; width:74px; aspect-ratio:1; border:1px solid rgba(255,244,215,.7); border-radius:50%; color:#fff7df; background:rgba(65,38,10,.28); backdrop-filter:blur(5px); font:400 2.5rem/1 var(--display); transform:translate(-50%,-50%); }
     .envelope-intro.opening .invitation-peek { animation:letter-rise 1.55s 1.35s cubic-bezier(.18,.76,.22,1) forwards; }
     .envelope-front { position:absolute; z-index:4; inset:24% 0 0; overflow:hidden; border-radius:.8rem; }
     .envelope-front::before,.envelope-front::after { content:""; position:absolute; inset:0; }
