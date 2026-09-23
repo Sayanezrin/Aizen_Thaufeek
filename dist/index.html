@@ -210,24 +210,34 @@
     const envelopeIntro=document.querySelector('#envelopeIntro');
     const blessingSection=document.querySelector('#blessing');
     let allowAutoScroll=true;
+    let isAutoScrolling=false;
     music.volume=.55;
     function showMusicState(playing){soundButton.setAttribute('aria-label',playing?'Pause music':'Play music');soundButton.style.opacity=playing?'1':'.72';}
     async function startMusic(){try{music.muted=false;await music.play();showMusicState(true);return true;}catch(error){showMusicState(false);return false;}}
     async function primeMusic(){try{music.muted=true;await music.play();setTimeout(()=>{music.muted=false;showMusicState(!music.paused);},120);}catch(error){music.muted=false;startMusic();}}
-    function autoScrollToInvitation(){if(!allowAutoScroll||window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;blessingSection.scrollIntoView({behavior:'smooth',block:'start'});}
+    function autoScrollToInvitation(){
+      if(!allowAutoScroll||window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+      const start=window.scrollY;
+      const destination=blessingSection.offsetTop;
+      const duration=380;
+      const started=performance.now();
+      isAutoScrolling=true;
+      function step(now){const progress=Math.min((now-started)/duration,1);const eased=1-Math.pow(1-progress,3);window.scrollTo(0,start+(destination-start)*eased);if(progress<1&&allowAutoScroll){requestAnimationFrame(step);}else{isAutoScrolling=false;}}
+      requestAnimationFrame(step);
+    }
     function openInvitation(){
       if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){envelopeIntro.remove();video.play().catch(()=>{});startMusic();return;}
       document.body.classList.add('intro-active');
       setTimeout(()=>{video.play().catch(()=>{});startMusic();},1900);
       setTimeout(()=>{envelopeIntro.classList.add('finished');document.body.classList.remove('intro-active');},3000);
+      setTimeout(autoScrollToInvitation,3050);
       setTimeout(()=>envelopeIntro.remove(),3900);
     }
     primeMusic();
     window.addEventListener('load',openInvitation);
     document.addEventListener('visibilitychange',()=>{if(!document.hidden&&music.paused)startMusic();});
     ['pointerdown','touchstart','keydown'].forEach(type=>document.addEventListener(type,()=>{if(music.paused)startMusic();},{once:true,passive:true}));
-    document.addEventListener('scroll',()=>{allowAutoScroll=false;if(music.paused)startMusic();},{once:true,passive:true});
-    video.addEventListener('ended',autoScrollToInvitation);
+    document.addEventListener('scroll',()=>{if(!isAutoScrolling)allowAutoScroll=false;if(music.paused)startMusic();},{once:true,passive:true});
     document.querySelector('#replay').addEventListener('click',()=>{video.currentTime=0;video.play();});
     soundButton.addEventListener('click',event=>{event.stopPropagation();if(music.paused){startMusic();}else{music.pause();showMusicState(false);}});
     const revealObserver=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');revealObserver.unobserve(entry.target);}});},{threshold:.16});
