@@ -221,7 +221,7 @@
       if(!allowAutoScroll||window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
       const start=window.scrollY;
       const destination=blessingSection.offsetTop;
-      const duration=550;
+      const duration=750;
       const started=performance.now();
       isAutoScrolling=true;
       function step(now){const progress=Math.min((now-started)/duration,1);const eased=1-Math.pow(1-progress,3);window.scrollTo(0,start+(destination-start)*eased);if(progress<1&&allowAutoScroll){requestAnimationFrame(step);}else{isAutoScrolling=false;}}
