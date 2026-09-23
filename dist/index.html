@@ -138,8 +138,9 @@
     }
     @media (max-width:540px) {
       .hero-actions { right:.75rem; bottom:max(.9rem,env(safe-area-inset-bottom)); }
-      .scroll-cue { left:.9rem; bottom:max(1.15rem,calc(env(safe-area-inset-bottom) + .2rem)); }
-      .location-quick { bottom:max(5rem,calc(env(safe-area-inset-bottom) + 4.5rem)); }
+      .scroll-cue { left:.75rem; bottom:max(.8rem,env(safe-area-inset-bottom)); min-height:44px; padding:.65rem .85rem; gap:.5rem; border:1px solid rgba(255,255,255,.72); border-radius:999px; color:#fff; background:#000; box-shadow:0 10px 28px rgba(0,0,0,.38); font-size:.7rem; font-weight:700; letter-spacing:.12em; }
+      .scroll-cue svg { width:21px; stroke-width:2.5; }
+      .location-quick { bottom:max(5.25rem,calc(env(safe-area-inset-bottom) + 4.75rem)); }
       .round-action { width:44px; height:44px; }
     }
     @media (prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } *,*::before,*::after { animation-duration:.01ms!important; animation-iteration-count:1!important; transition-duration:.01ms!important; } .reveal { opacity:1; transform:none; } .envelope-intro { display:none; } }
