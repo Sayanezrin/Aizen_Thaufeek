@@ -235,7 +235,7 @@
       if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){envelopeIntro.remove();document.body.classList.remove('intro-active');video.play().catch(()=>{});return;}
       setTimeout(()=>{video.play().catch(()=>{});startMusic();},1900);
       setTimeout(()=>{envelopeIntro.classList.add('finished');document.body.classList.remove('intro-active');},3000);
-      setTimeout(autoScrollToInvitation,3050);
+      setTimeout(autoScrollToInvitation,5500);
       setTimeout(()=>envelopeIntro.remove(),3900);
     }
     primeMusic();
